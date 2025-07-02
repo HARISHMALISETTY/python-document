@@ -5,66 +5,123 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Module 5: Libraries, File Handling, and Exception Handling</title>
   <style>
+    :root {
+      --bg: #f9fafc;
+      --card-bg: #fff;
+      --text: #2c3e50;
+      --card-text: #333;
+      --shadow: 0 6px 20px rgba(0,0,0,0.08);
+      --card-hover: #23272f22;
+    }
+    body.dark {
+      --bg: #181c24;
+      --card-bg: #23272f;
+      --text: #f3f6fa;
+      --card-text: #f3f6fa;
+      --shadow: 0 6px 24px rgba(0,0,0,0.45);
+      --card-hover: #23272f;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f9fafc;
+      background-color: var(--bg);
       margin: 0;
       padding: 0;
-      color: #333;
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
     }
-
     h1 {
       text-align: center;
       font-size: 2.5rem;
       margin-top: 30px;
-      color: #2c3e50;
+      color: var(--text);
+      transition: color 0.4s;
     }
-
     .content {
       max-width: 900px;
       margin: 40px auto;
       padding: 20px;
-      background-color: #ffffff;
+      background-color: var(--card-bg);
       border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow);
+      transition: background 0.4s, box-shadow 0.4s;
     }
-
+    .content:hover {
+      transform: scale(1.045) rotate(-2deg);
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.18), 0 2px 8px 0 rgba(0,0,0,0.18);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #e0e7ef 100%);
+    }
+    body.dark .content:hover {
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.28), 0 2px 8px 0 rgba(0,0,0,0.28);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #23272f 100%);
+    }
     h2 {
       font-size: 1.7rem;
-      color: #34495e;
+      color: var(--card-text);
       margin-top: 40px;
       border-bottom: 2px solid #ccc;
       padding-bottom: 5px;
+      transition: color 0.4s;
     }
-
     ul {
       margin-left: 20px;
       padding-left: 15px;
     }
-
     li {
       font-size: 1.05rem;
       margin-bottom: 8px;
+      color: var(--card-text);
+      transition: color 0.4s;
     }
-
     .back-link {
       text-align: center;
       margin-top: 40px;
     }
-
     .back-link a {
       text-decoration: none;
       color: #3498db;
       font-weight: 600;
       font-size: 1rem;
     }
-
     .back-link a:hover {
       text-decoration: underline;
+    }
+    .toggle-mode {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 100;
+      background: var(--card-bg);
+      color: var(--card-text);
+      border: none;
+      border-radius: 24px;
+      padding: 10px 22px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.4s, color 0.4s, box-shadow 0.4s, transform 0.2s;
+      outline: none;
+    }
+    .toggle-mode:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
 <body>
+  <button class="toggle-mode" id="toggleModeBtn">🌙 Dark Mode</button>
+  <script>
+    const btn = document.getElementById('toggleModeBtn');
+    function setMode(dark) {
+      document.body.classList.toggle('dark', dark);
+      btn.textContent = dark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', dark ? '1' : '0');
+    }
+    btn.onclick = () => setMode(!document.body.classList.contains('dark'));
+    // On load
+    const darkPref = localStorage.getItem('darkMode') === '1' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setMode(darkPref);
+  </script>
+
 
   <h1>📘 Module 5: Libraries, File Handling, and Exception Handling</h1>
 

@@ -5,49 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DSA Algorithms Curriculum</title>
   <style>
+    :root {
+      --bg: #f4f8fb;
+      --card-bg: #fff;
+      --text: #2c3e50;
+      --card-text: #2d2d2d;
+      --shadow: 0 4px 16px rgba(0,0,0,0.1);
+      --card-hover: #23272f22;
+    }
+    body.dark {
+      --bg: #181c24;
+      --card-bg: #23272f;
+      --text: #f3f6fa;
+      --card-text: #f3f6fa;
+      --shadow: 0 4px 24px rgba(0,0,0,0.45);
+      --card-hover: #23272f;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f8fb;
+      background-color: var(--bg);
       margin: 0;
       padding: 30px;
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
     }
-
     h1 {
       text-align: center;
       font-size: 2.5rem;
-      color: #2c3e50;
+      color: var(--text);
       margin-bottom: 40px;
+      transition: color 0.4s;
     }
-
     .section {
-      background-color: white;
+      background-color: var(--card-bg);
       padding: 25px 30px;
       margin-bottom: 30px;
       border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      box-shadow: var(--shadow);
+      transition: background 0.4s, box-shadow 0.4s;
     }
-
     h2 {
-      color: #34495e;
+      color: var(--card-text);
       margin-bottom: 15px;
       font-size: 1.6rem;
+      transition: color 0.4s;
     }
-
     ul {
       padding-left: 20px;
     }
-
     li {
       margin: 10px 0;
       font-size: 1.1rem;
-      color: #2d2d2d;
+      color: var(--card-text);
+      transition: color 0.4s;
     }
-
     .link-section {
       text-align: center;
       margin-top: 40px;
     }
-
     .link-section a {
       display: inline-block;
       background-color: #3498db;
@@ -58,34 +73,62 @@
       font-weight: 500;
       border-radius: 8px;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s, color 0.4s, transform 0.2s;
     }
-
     .link-section a:hover {
       background-color: #2980b9;
       transform: translateY(-2px);
     }
-
     @media (max-width: 768px) {
       body {
         padding: 20px;
       }
-
       h1 {
         font-size: 2rem;
       }
-
       h2 {
         font-size: 1.4rem;
       }
-
       li {
         font-size: 1rem;
       }
     }
+    .toggle-mode {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 100;
+      background: var(--card-bg);
+      color: var(--card-text);
+      border: none;
+      border-radius: 24px;
+      padding: 10px 22px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.4s, color 0.4s, box-shadow 0.4s, transform 0.2s;
+      outline: none;
+    }
+    .toggle-mode:active {
+      transform: scale(0.97);
+    }
   </style>
 </head>
 <body>
+  <button class="toggle-mode" id="toggleModeBtn">🌙 Dark Mode</button>
+  <script>
+    const btn = document.getElementById('toggleModeBtn');
+    function setMode(dark) {
+      document.body.classList.toggle('dark', dark);
+      btn.textContent = dark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', dark ? '1' : '0');
+    }
+    btn.onclick = () => setMode(!document.body.classList.contains('dark'));
+    // On load
+    const darkPref = localStorage.getItem('darkMode') === '1' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setMode(darkPref);
+  </script>
 
   <h1>📊 Essential DSA Algorithms for Freshers</h1>
 

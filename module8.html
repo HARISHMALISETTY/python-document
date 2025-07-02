@@ -5,45 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Module 8: Concurrency and Parallelism</title>
   <style>
+    :root {
+      --bg: #f0f4f8;
+      --card-bg: #fff;
+      --text: #2c3e50;
+      --card-text: #2c3e50;
+      --shadow: 0 6px 20px rgba(0,0,0,0.08);
+      --card-hover: #23272f22;
+    }
+    body.dark {
+      --bg: #181c24;
+      --card-bg: #23272f;
+      --text: #f3f6fa;
+      --card-text: #f3f6fa;
+      --shadow: 0 6px 24px rgba(0,0,0,0.45);
+      --card-hover: #23272f;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 20px;
-      background-color: #f0f4f8;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
     }
-
     h1 {
       text-align: center;
-      color: #2c3e50;
+      color: var(--text);
+      transition: color 0.4s;
     }
-
     .content {
       max-width: 900px;
       margin: auto;
       font-size: 1.1rem;
       line-height: 1.7;
-      background: white;
+      background: var(--card-bg);
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      box-shadow: var(--shadow);
+      transition: background 0.4s, box-shadow 0.4s;
     }
-
+    .content:hover {
+      transform: scale(1.045) rotate(-2deg);
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.18), 0 2px 8px 0 rgba(0,0,0,0.18);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #e0e7ef 100%);
+    }
+    body.dark .content:hover {
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.28), 0 2px 8px 0 rgba(0,0,0,0.28);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #23272f 100%);
+    }
     h2 {
-      color: #34495e;
+      color: var(--card-text);
+      transition: color 0.4s;
     }
-
     code {
       background: #ecf0f1;
       padding: 2px 6px;
       border-radius: 4px;
       font-family: Consolas, monospace;
     }
-
     .back-link {
       text-align: center;
       margin-top: 30px;
     }
-
     .back-link a {
       text-decoration: none;
       color: #2c3e50;
@@ -53,15 +77,47 @@
       padding: 10px 18px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: background 0.3s ease;
+      transition: background 0.3s;
     }
-
     .back-link a:hover {
       background: #c7d2fe;
+    }
+    .toggle-mode {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 100;
+      background: var(--card-bg);
+      color: var(--card-text);
+      border: none;
+      border-radius: 24px;
+      padding: 10px 22px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.4s, color 0.4s, box-shadow 0.4s, transform 0.2s;
+      outline: none;
+    }
+    .toggle-mode:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
 <body>
+  <button class="toggle-mode" id="toggleModeBtn">🌙 Dark Mode</button>
+  <script>
+    const btn = document.getElementById('toggleModeBtn');
+    function setMode(dark) {
+      document.body.classList.toggle('dark', dark);
+      btn.textContent = dark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', dark ? '1' : '0');
+    }
+    btn.onclick = () => setMode(!document.body.classList.contains('dark'));
+    // On load
+    const darkPref = localStorage.getItem('darkMode') === '1' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setMode(darkPref);
+  </script>
 
   <h1>📘 Module 8: Concurrency and Parallelism</h1>
 
@@ -73,7 +129,7 @@
     <p>Parallelism is when tasks literally run at the same time — typically on multiple CPU cores — using the <code>multiprocessing</code> module.</p>
 
     <h2>🧵 Threading</h2>
-    <p>Python's <code>threading</code> module allows concurrent execution, but due to the GIL (Global Interpreter Lock), threads don’t truly run in parallel for CPU-bound tasks.</p>
+    <p>Python's <code>threading</code> module allows concurrent execution, but due to the GIL (Global Interpreter Lock), threads don't truly run in parallel for CPU-bound tasks.</p>
 
     <h2>🔀 Asyncio</h2>
     <p>Ideal for I/O-bound operations like file access or network calls. Async programming uses <code>async</code> and <code>await</code> keywords.</p>

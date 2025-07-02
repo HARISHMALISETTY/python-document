@@ -5,20 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Core Python Modules</title>
   <style>
+    :root {
+      --bg: #f0f4f8;
+      --card-bg: #fff;
+      --text: #2c3e50;
+      --card-text: #2d2d2d;
+      --shadow: 0 6px 15px rgba(0,0,0,0.1);
+      --card-hover: #e0e7ef;
+      --problem-card-bg: #fff;
+      --problem-card-text: #2c3e50;
+    }
+    body.dark {
+      --bg: #181c24;
+      --card-bg: #23272f;
+      --text: #f3f6fa;
+      --card-text: #f3f6fa;
+      --shadow: 0 6px 20px rgba(0,0,0,0.45);
+      --card-hover: #23272f;
+      --problem-card-bg: #23272f;
+      --problem-card-text: #f3f6fa;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
+      background-color: var(--bg);
       margin: 0;
       padding: 0;
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
     }
-
     h1 {
       text-align: center;
       margin-top: 30px;
       font-size: 2.5rem;
-      color: #2c3e50;
+      color: var(--text);
+      transition: color 0.4s;
     }
-
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -27,60 +48,76 @@
       max-width: 1200px;
       margin: auto;
     }
-
     .card {
-      background-color: white;
+      background-color: var(--card-bg);
       padding: 30px;
       border-radius: 16px;
       text-align: center;
       font-size: 1.2rem;
       font-weight: 600;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.4s, background 0.4s, color 0.4s;
       text-decoration: none;
-      color: #2d2d2d;
+      color: var(--card-text);
       display: flex;
       align-items: center;
       justify-content: center;
       height: 150px;
     }
-
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transform: translateY(-8px) scale(1.045) rotate(-2deg);
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.18), 0 2px 8px 0 rgba(0,0,0,0.18);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #e0e7ef 100%);
     }
-
+    .toggle-mode {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 100;
+      background: var(--card-bg);
+      color: var(--card-text);
+      border: none;
+      border-radius: 24px;
+      padding: 10px 22px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.4s, color 0.4s, box-shadow 0.4s, transform 0.2s;
+      outline: none;
+    }
+    .toggle-mode:active {
+      transform: scale(0.97);
+    }
     /* Problem Solving Card */
     .problem-wrapper {
       width: 80%;
       max-width: 900px;
       margin: 60px auto;
     }
-
     .problem-card {
       position: relative;
-      background-color: white;
+      background-color: var(--problem-card-bg);
       padding: 40px;
       border-radius: 20px;
       text-align: center;
       font-size: 1.5rem;
       font-weight: bold;
-      color: #2c3e50;
+      color: var(--problem-card-text);
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 200px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s, background 0.4s, color 0.4s;
       overflow: hidden;
     }
-
     .problem-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      transform: scale(1.045) rotate(1.5deg);
+      box-shadow: 0 18px 48px 0 rgba(241,196,15,0.18), 0 2px 8px 0 rgba(0,0,0,0.18);
+      background: linear-gradient(120deg, var(--problem-card-bg) 80%, #f9e79f 100%);
     }
-
     .star {
       position: absolute;
       font-size: 1.3rem;
@@ -89,8 +126,6 @@
       animation: sparkle 3s infinite ease-in-out;
       pointer-events: none;
     }
-
-    /* Different random star positions */
     .star1 { top: 10px; left: 20px; animation-delay: 0s; }
     .star2 { top: 20px; right: 30px; animation-delay: 0.3s; }
     .star3 { bottom: 15px; left: 40px; animation-delay: 0.6s; }
@@ -99,7 +134,6 @@
     .star6 { top: 60%; right: 15%; animation-delay: 1.5s; }
     .star7 { top: 35%; left: 40%; animation-delay: 1.8s; }
     .star8 { bottom: 10%; right: 25%; animation-delay: 2.1s; }
-
     @keyframes sparkle {
       0%, 100% {
         transform: scale(1) rotate(0deg);
@@ -110,9 +144,30 @@
         opacity: 1;
       }
     }
+    body.dark .card:hover {
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.28), 0 2px 8px 0 rgba(0,0,0,0.28);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #23272f 100%);
+    }
+    body.dark .problem-card:hover {
+      box-shadow: 0 18px 48px 0 rgba(241,196,15,0.28), 0 2px 8px 0 rgba(0,0,0,0.28);
+      background: linear-gradient(120deg, var(--problem-card-bg) 80%, #23272f 100%);
+    }
   </style>
 </head>
 <body>
+  <button class="toggle-mode" id="toggleModeBtn">🌙 Dark Mode</button>
+  <script>
+    const btn = document.getElementById('toggleModeBtn');
+    function setMode(dark) {
+      document.body.classList.toggle('dark', dark);
+      btn.textContent = dark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', dark ? '1' : '0');
+    }
+    btn.onclick = () => setMode(!document.body.classList.contains('dark'));
+    // On load
+    const darkPref = localStorage.getItem('darkMode') === '1' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setMode(darkPref);
+  </script>
 
   <h1>🐍 Core Python Modules</h1>
 

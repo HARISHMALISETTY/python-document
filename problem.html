@@ -5,20 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Python Topics</title>
   <style>
+    :root {
+      --bg: #f5f7fa;
+      --card-bg: #fff;
+      --text: #2c3e50;
+      --card-text: #34495e;
+      --shadow: 0 6px 15px rgba(0,0,0,0.1);
+      --card-hover: #e0e7ef;
+    }
+    body.dark {
+      --bg: #181c24;
+      --card-bg: #23272f;
+      --text: #f3f6fa;
+      --card-text: #f3f6fa;
+      --shadow: 0 6px 20px rgba(0,0,0,0.45);
+      --card-hover: #23272f;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
+      background-color: var(--bg);
       margin: 0;
       padding: 0;
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
     }
-
     h1 {
       text-align: center;
       margin: 30px 0;
       font-size: 2.2rem;
-      color: #2c3e50;
+      color: var(--text);
+      transition: color 0.4s;
     }
-
     .grid-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -27,33 +44,53 @@
       max-width: 1100px;
       margin: auto;
     }
-
     .card-link {
       text-decoration: none;
     }
-
     .card {
-      background-color: white;
+      background-color: var(--card-bg);
       border-radius: 15px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow);
       padding: 30px;
       text-align: center;
       font-size: 1.2rem;
       font-weight: bold;
-      color: #34495e;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      color: var(--card-text);
+      transition: transform 0.3s, box-shadow 0.3s, background 0.4s, color 0.4s;
     }
-
     .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+      transform: scale(1.045) rotate(-2deg);
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.18), 0 2px 8px 0 rgba(0,0,0,0.18);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #e0e7ef 100%);
     }
-
+    body.dark .card:hover {
+      box-shadow: 0 16px 40px 0 rgba(52,152,219,0.28), 0 2px 8px 0 rgba(0,0,0,0.28);
+      background: linear-gradient(120deg, var(--card-bg) 80%, #23272f 100%);
+    }
+    .toggle-mode {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 100;
+      background: var(--card-bg);
+      color: var(--card-text);
+      border: none;
+      border-radius: 24px;
+      padding: 10px 22px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.4s, color 0.4s, box-shadow 0.4s, transform 0.2s;
+      outline: none;
+    }
+    .toggle-mode:active {
+      transform: scale(0.97);
+    }
     .link-section {
       text-align: center;
       margin: 60px 0 40px;
     }
-
     .link-section a {
       display: inline-block;
       padding: 12px 28px;
@@ -63,20 +100,17 @@
       text-decoration: none;
       border-radius: 8px;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s, transform 0.2s;
     }
-
     .link-section a:hover {
       background-color: #2980b9;
       transform: translateY(-2px);
     }
-
     @media (max-width: 768px) {
       .grid-container {
         grid-template-columns: 1fr;
         padding: 20px;
       }
-
       .card {
         font-size: 1.1rem;
       }
@@ -84,6 +118,19 @@
   </style>
 </head>
 <body>
+  <button class="toggle-mode" id="toggleModeBtn">🌙 Dark Mode</button>
+  <script>
+    const btn = document.getElementById('toggleModeBtn');
+    function setMode(dark) {
+      document.body.classList.toggle('dark', dark);
+      btn.textContent = dark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', dark ? '1' : '0');
+    }
+    btn.onclick = () => setMode(!document.body.classList.contains('dark'));
+    // On load
+    const darkPref = localStorage.getItem('darkMode') === '1' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setMode(darkPref);
+  </script>
 
   <h1>🧩 Python Topics</h1>
 
